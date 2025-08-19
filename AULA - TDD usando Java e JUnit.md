@@ -88,6 +88,7 @@ Implementar a API de uma calculadora com apenas as 4 operações.
 4. Generate e extraia o ZIP
 # Estrutura do projeto
 
+```plaintext
 calculadoraapi/
 ├── src/
 │   ├── main/
@@ -115,6 +116,8 @@ calculadoraapi/
 ├── .gitignore
 ├── pom.xml
 └── README.md
+```
+
 
 ---
 ## Testes
