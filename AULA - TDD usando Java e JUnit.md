@@ -10,10 +10,12 @@ tags:
 descrição curta: 
 referências:
   - "[[03 - Trabalho/ETEC/1 - Conteúdos/Desenvolvimento de Sistemas/Java|Java]]"
+  - "[[Spring Boot]]"
 ---
 # TDD
 
 TDD (Test-Driven Development) é uma metodologia de desenvolvimento onde você escreve os testes ANTES do código de produção.
+TDD foi criado por Kent Beck.
 ## Ciclo Red-Green-Refactor
 
 O TDD segue um ciclo de 3 etapas:
@@ -22,7 +24,7 @@ O TDD segue um ciclo de 3 etapas:
 3. **🟡 REFACTOR**: Melhore o código mantendo os testes passando
 ## Vantagens do TDD
 
-- **Código mais confiável** - 100% coberto por testes
+- **Código mais confiável** - 100% (esperado) coberto por testes
 - **Design melhor** - testes forçam código mais limpo
 - **Menos bugs** - problemas descobertos cedo
 - **Refatoração segura** - testes garantem que nada quebrou
@@ -31,7 +33,6 @@ O TDD segue um ciclo de 3 etapas:
 
 ## Java
 Necessário ter o JDK do Java instalado na máquina
-
 ### Links
 **JDK:** https://adoptium.net/pt-BR/temurin/releases
 
@@ -42,9 +43,23 @@ Depois de instalar o VS Code, você encontra os pacotes de extensões no menu `E
 
 ![[Pasted image 20250806141508.png]]
 
-VS Code: https://code.visualstudio.com/
+### Links
+**VS Code:** https://code.visualstudio.com/
 
+---
 # Criando o projeto
+
+## Definição
+
+Implementar a API de uma calculadora com apenas as 4 operações.
+
+### Requisitos
+
+- Possuir uma `service` com as funções que executam as quatro operações e `controller` como ponto de entrada;
+- Aceitar apenas valores `double` como parâmetro;
+- Métodos devem retornar `dounle` como resultado;
+- Não permitir divisão por `0`;
+- ...
 
 ## Opção 1: Via Command Palette (Ctrl+Shift+P)
 
@@ -69,9 +84,8 @@ VS Code: https://code.visualstudio.com/
     - Artifact: calculadora-api
     - Packaging: Jar
     - Java: 17
-3. Adicione dependências: Spring Web, DevTools, Test
+3. Adicione dependências: Spring Web, DevTools
 4. Generate e extraia o ZIP
-
 # Estrutura do projeto
 
 calculadoraapi/
@@ -102,93 +116,7 @@ calculadoraapi/
 ├── pom.xml
 └── README.md
 
-# Código da Aplicação
-
-## Classe Principal (CalculadoraApiApplication.java)
-
-```java
-package com.exemplo.calculadoraapi;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class CalculadoraApiApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(CalculadoraApiApplication.class, args);
-    }
-}
-```
-
-## Service (CalculadoraService.java)
-
-```java
-package com.exemplo.calculadoraapi.service;
-
-import org.springframework.stereotype.Service;
-
-@Service
-public class CalculadoraService {
-    
-    public double somar(double a, double b) {
-        return a + b;
-    }
-    
-    public double subtrair(double a, double b) {
-        return a - b;
-    }
-    
-    public double multiplicar(double a, double b) {
-        return a * b;
-    }
-    
-    public double dividir(double a, double b) {
-        if (b == 0) {
-            throw new IllegalArgumentException("Divisão por zero não é permitida");
-        }
-        return a / b;
-    }
-}
-```
-
-## Controller (CalculadoraController.java)
-
-```java
-package com.exemplo.calculadoraapi.controller;
-
-import com.exemplo.calculadoraapi.service.CalculadoraService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-@RestController
-@RequestMapping("/api/calculadora")
-public class CalculadoraController {
-    
-    @Autowired
-    private CalculadoraService calculadoraService;
-    
-    @GetMapping("/somar")
-    public double somar(@RequestParam double a, @RequestParam double b) {
-        return calculadoraService.somar(a, b);
-    }
-    
-    @GetMapping("/subtrair")
-    public double subtrair(@RequestParam double a, @RequestParam double b) {
-        return calculadoraService.subtrair(a, b);
-    }
-    
-    @GetMapping("/multiplicar")
-    public double multiplicar(@RequestParam double a, @RequestParam double b) {
-        return calculadoraService.multiplicar(a, b);
-    }
-    
-    @GetMapping("/dividir")
-    public double dividir(@RequestParam double a, @RequestParam double b) {
-        return calculadoraService.dividir(a, b);
-    }
-}
-```
-
+---
 ## Testes
 
 ### Teste do Service (CalculadoraServiceTest.java)
@@ -290,7 +218,6 @@ class CalculadoraControllerTest {
     }
 }
 ```
-
 # Executar Testes
 
 1. **Via Command Palette:** Ctrl+Shift+P → "Java: Run Tests"
@@ -298,6 +225,93 @@ class CalculadoraControllerTest {
 3. **Via Terminal:** `./mvnw test`
 4. **Teste Individual:** Clique no ícone "Run Test" acima de cada método de teste
 
+---
+# Código da Aplicação
+
+## Classe Principal (CalculadoraApiApplication.java)
+
+```java
+package com.exemplo.calculadoraapi;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class CalculadoraApiApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CalculadoraApiApplication.class, args);
+    }
+}
+```
+
+## Service (CalculadoraService.java)
+
+```java
+package com.exemplo.calculadoraapi.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class CalculadoraService {
+    
+    public double somar(double a, double b) {
+        return a + b;
+    }
+    
+    public double subtrair(double a, double b) {
+        return a - b;
+    }
+    
+    public double multiplicar(double a, double b) {
+        return a * b;
+    }
+    
+    public double dividir(double a, double b) {
+        if (b == 0) {
+            throw new IllegalArgumentException("Divisão por zero não é permitida");
+        }
+        return a / b;
+    }
+}
+```
+
+## Controller (CalculadoraController.java)
+
+```java
+package com.exemplo.calculadoraapi.controller;
+
+import com.exemplo.calculadoraapi.service.CalculadoraService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/calculadora")
+public class CalculadoraController {
+    
+    @Autowired
+    private CalculadoraService calculadoraService;
+    
+    @GetMapping("/somar")
+    public double somar(@RequestParam double a, @RequestParam double b) {
+        return calculadoraService.somar(a, b);
+    }
+    
+    @GetMapping("/subtrair")
+    public double subtrair(@RequestParam double a, @RequestParam double b) {
+        return calculadoraService.subtrair(a, b);
+    }
+    
+    @GetMapping("/multiplicar")
+    public double multiplicar(@RequestParam double a, @RequestParam double b) {
+        return calculadoraService.multiplicar(a, b);
+    }
+    
+    @GetMapping("/dividir")
+    public double dividir(@RequestParam double a, @RequestParam double b) {
+        return calculadoraService.dividir(a, b);
+    }
+}
+```
 # Testando a API
 
 Com a aplicação rodando, teste os endpoints:
