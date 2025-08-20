@@ -11,7 +11,7 @@ Esta matéria tem o foco em explicar boas práticas de desenvolvimento, condutas
 <br>
 
 ### 🔧 TDD com JUnit
-👷🏻‍♀️ Em desenvolvimento.
+Atividade prática para entender o tipo de teste TDD.
 - 🔧 [Primeira Atividade](https://github.com/RgoSL/QTS-2025/tree/Ativ01) <!-- ⬅️ LINK PARA A RESPECTIVA BRANCH -->
 <br>
 
